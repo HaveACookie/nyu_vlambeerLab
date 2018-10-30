@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 //using UnityEditor.Experimental.UIElements;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 // MAZE PROC GEN LAB
 // all students: complete steps 1-6, as listed in this file
@@ -11,7 +10,7 @@ using UnityEngine.SceneManagement;
 // STEP 1: ======================================================================================
 // put this script on a Sphere... it will move around, and drop a path of floor tiles behind it
 
-public class Pathmaker : MonoBehaviour {
+public class pathmaker2 : MonoBehaviour {
 
 // STEP 2: ============================================================================================
 // translate the pseudocode below
@@ -22,38 +21,32 @@ public class Pathmaker : MonoBehaviour {
 //	Declare a public Transform called pathmakerSpherePrefab, assign the prefab in inspector; 		// you'll have to make a "pathmakerSphere" prefab later
 	private int counter = 0;
 	public Transform floorPrefab;
-    public Transform floorPrefab2;
-    public Transform floorPrefab3;
 	public Transform pathmakerSpherePrefab;
-	public Transform pathmaker2SpherePrefab;
 	public Transform castStart, castEnd;
 	public bool isHit = false;
     public int countRand;
     //public static int tileCount = 0;
     public int tileMax;
-     void Start()
+
+
+    private void Start()
     {
-         countRand = Random.Range(1, 10);
+       countRand = Random.Range(1, 400);
     }
 
     void Update () {
-        //		If counter is less than 50, then:
-        //			Generate a random number from 0.0f to 1.0f;
-        //			If random number is less than 0.25f, then rotate myself 90 degrees;
-        //				... Else if number is 0.25f-0.5f, then rotate myself -90 degrees;
-        //				... Else if number is 0.99f-1.0f, then instantiate a pathmakerSpherePrefab clone at my current position;
-        //			// end elseIf
+//		If counter is less than 50, then:
+//			Generate a random number from 0.0f to 1.0f;
+//			If random number is less than 0.25f, then rotate myself 90 degrees;
+//				... Else if number is 0.25f-0.5f, then rotate myself -90 degrees;
+//				... Else if number is 0.99f-1.0f, then instantiate a pathmakerSpherePrefab clone at my current position;
+//			// end elseIf
 
-        //			Instantiate a floorPrefab clone at current position;
-        //			Move forward ("forward", as in, the direction I'm currently facing) by 5 units;
-        //			Increment counter;
-        //		Else:
-        //			Destroy my game object; 		// self destruct if I've made enough tiles already
-
-        if (Input.GetKey(KeyCode.R))
-        {
-            SceneManager.LoadScene(0);
-        }
+//			Instantiate a floorPrefab clone at current position;
+//			Move forward ("forward", as in, the direction I'm currently facing) by 5 units;
+//			Increment counter;
+//		Else:
+//			Destroy my game object; 		// self destruct if I've made enough tiles already
 		Raycasting();
 		if (isHit)
 		{	
@@ -61,37 +54,25 @@ public class Pathmaker : MonoBehaviour {
 			
 		}
 		else if (!isHit){	
-			if (counter < 200)
+			if (counter < countRand )
 			{
 				float randomNum = Random.Range(0.0f, 1.0f);
 
 		
-				if (randomNum < .1f)
+				if (randomNum > .1f)
 				{
 					transform.Rotate(90,0,0);
 				}
 
-				else if (randomNum < .2f)
+				else if (randomNum > .2f)
 				{
 					transform.Rotate(-90, 0, 0);
 				}
-				else if (randomNum < .5f)
+				else if (randomNum > .25f)
 				{
 					transform.Rotate(0, 0, 0);
-
 				}
-
-                else if (randomNum < .6f)
-                {
-                    Debug.Log("Hi");
-                    Transform myNewSphere1 = Instantiate
-                    (
-                    pathmaker2SpherePrefab,
-                    transform.position,
-                    Quaternion.identity
-                    );
-                }
-                else if (randomNum <1.0f && randomNum >.9f)
+				else if (randomNum <1.0f && randomNum >.9)
 				{
 					Transform myNewSphere = Instantiate
 					(
@@ -100,34 +81,14 @@ public class Pathmaker : MonoBehaviour {
 						Quaternion.identity
 					);
 				}
-                if (countRand < 3)
-                {
-                    Transform myNewFloor = Instantiate
-                    (
-                        floorPrefab,
-                        transform.position,
-                        Quaternion.identity
-                    );
-                }
-                if (countRand < 6)
-                {
-                    Transform myNewFloor = Instantiate
-                    (
-                        floorPrefab2,
-                        transform.position,
-                        Quaternion.identity
-                    );
-                }
-                if (countRand < 9)
-                {
-                    Transform myNewFloor = Instantiate
-                    (
-                        floorPrefab3,
-                        transform.position,
-                        Quaternion.identity
-                    );
-                }
-                transform.Translate(Vector3.forward*5);
+
+				Transform myNewFloor = Instantiate
+				(
+					floorPrefab,
+					transform.position,
+					Quaternion.identity
+				);
+				transform.Translate(Vector3.forward*5);
 				GameManager.Instance.tileCount++;
 				counter++;
 			
